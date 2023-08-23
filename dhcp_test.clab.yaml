@@ -1,0 +1,26 @@
+# topology documentation: http://containerlab.dev/lab-examples/min-5clos/
+name: dhcp_test
+
+topology:
+  kinds:
+    linux:
+      image: ghcr.io/hellt/network-multitool
+  nodes:
+    dhcp:
+      kind: linux
+      image: dhcp_kea:latest
+      exec:
+        - ip address add 192.0.2.250/24 dev eth1
+      # wait 5 seconds to give containerlab time to add the second interface
+      cmd: "sh -c 'sleep 5 && /usr/sbin/kea-dhcp4 -c /etc/kea/kea-dhcp4.conf'"
+      binds:
+        - "kea-dhcp4.conf:/etc/kea/kea-dhcp4.conf"
+    client:
+      kind: linux
+      binds:
+        - "linux_eth1.cfg:/etc/network/interfaces"
+      # automatic dhcp needs some more testing. `ifup eth1`
+      # exec:
+      #   - sh -c 'sleep 5 && ifup eth1'
+  links:
+    - endpoints: ["dhcp:eth1", "client:eth1"]

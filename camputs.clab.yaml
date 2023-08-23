@@ -4,7 +4,7 @@ name: campus
 topology:
   kinds:
     ceos:
-      image: ceos:4.30.2f
+      image: ceos:4.30.2F
     linux:
       image: ghcr.io/hellt/network-multitool
   nodes:
