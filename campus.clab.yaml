@@ -66,6 +66,12 @@ topology:
       kind: linux
     client44:
       kind: linux
+    
+
+    services:
+      kind: ceos
+    dhcp:
+      kind: linux
 
   links:
     # leaf to spine links POD1
@@ -106,3 +112,7 @@ topology:
     - endpoints: ["client42:eth1", "leaf4:eth4"]
     - endpoints: ["client43:eth1", "leaf4:eth5"]
     - endpoints: ["client44:eth1", "leaf4:eth6"]
+
+    - endpoints: ["services:eth1", "superspine1:eth3"]
+    - endpoints: ["services:eth2", "superspine1:eth4"]
+    - endpoints: ["dhcp:eth1", "services:eth3"]
